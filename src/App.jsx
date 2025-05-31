@@ -143,57 +143,6 @@ function App() {
       </div>
       
       {/* Upgrades Section */}
-      
-      
-      <div style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap:"10px",
-      }}>
-        <h2 style={{width:"100%"}}>Buildings</h2>
-        {buildings.map(building => {
-          const cost = getBuildingCost(building);
-          const canAfford = score >= cost;
-          const gameState = { totalScore, totalClicks, buildings };
-          const { buildings: enhancedBuildings } = applyUpgradeEffects(upgrades, buildings, 1);
-          const enhancedBuilding = enhancedBuildings.find(b => b.id === building.id);
-          const enhancedIncome = enhancedBuilding?.enhancedIncome || building.income;
-          
-          return (
-            <div 
-              key={building.id} 
-              style={{ 
-                marginBottom: '10px',
-                padding: '10px', 
-                border: '1px solid #ccc',
-                borderRadius: '5px',
-                minWidth: "17%",
-                flexGrow:"1",
-                opacity: canAfford ? 1 : 0.6
-              }}
-            >
-              <h3>{building.name}</h3>
-              <p>Owned: {building.count}</p>
-              <p>Income: +{formatNumber(enhancedIncome)}/sec each</p>
-              <p>Total Income: +{formatNumber(enhancedIncome * building.count)}/sec</p>
-              <button 
-                onClick={() => purchaseBuilding(building.id)}
-                disabled={!canAfford}
-                style={{
-                  padding: '10px 20px',
-                   cursor: canAfford ? 'pointer' : 'not-allowed',
-                  backgroundColor: canAfford ? '#4CAF50' : '#ccc',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '3px'
-                }}
-              >
-                Buy for {formatNumber(cost)}
-              </button>
-            </div>
-          );
-        })}
-      </div>
       {getAvailableUpgrades().length > 0 && (
         <div style={{ marginBottom: '30px' }}>
           <h2 style={{ 
@@ -264,6 +213,57 @@ function App() {
           )}
         </div>
       )}
+      
+      <div style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap:"10px",
+      }}>
+        <h2 style={{width:"100%"}}>Buildings</h2>
+        {buildings.map(building => {
+          const cost = getBuildingCost(building);
+          const canAfford = score >= cost;
+          const gameState = { totalScore, totalClicks, buildings };
+          const { buildings: enhancedBuildings } = applyUpgradeEffects(upgrades, buildings, 1);
+          const enhancedBuilding = enhancedBuildings.find(b => b.id === building.id);
+          const enhancedIncome = enhancedBuilding?.enhancedIncome || building.income;
+          
+          return (
+            <div 
+              key={building.id} 
+              style={{ 
+                marginBottom: '10px',
+                padding: '10px', 
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                minWidth: "17%",
+                flexGrow:"1",
+                opacity: canAfford ? 1 : 0.6
+              }}
+            >
+              <h3>{building.name}</h3>
+              <p>Owned: {building.count}</p>
+              <p>Income: +{formatNumber(enhancedIncome)}/sec each</p>
+              <p>Total Income: +{formatNumber(enhancedIncome * building.count)}/sec</p>
+              <button 
+                onClick={() => purchaseBuilding(building.id)}
+                disabled={!canAfford}
+                style={{
+                  padding: '10px 20px',
+                   cursor: canAfford ? 'pointer' : 'not-allowed',
+                  backgroundColor: canAfford ? '#4CAF50' : '#ccc',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '3px'
+                }}
+              >
+                Buy for {formatNumber(cost)}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      
     </div>
   );
 }
